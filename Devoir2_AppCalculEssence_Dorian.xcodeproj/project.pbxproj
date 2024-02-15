@@ -14,7 +14,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1D9223582B7A4F7400238323 /* Essence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Essence.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D9223582B7A4F7400238323 /* Devoir2_AppCalculEssence_Dorian.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Devoir2_AppCalculEssence_Dorian.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D92235B2B7A4F7400238323 /* EssenceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EssenceApp.swift; sourceTree = "<group>"; };
 		1D92235D2B7A4F7400238323 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1D92235F2B7A4F7500238323 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -43,7 +43,7 @@
 		1D9223592B7A4F7400238323 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D9223582B7A4F7400238323 /* Essence.app */,
+				1D9223582B7A4F7400238323 /* Devoir2_AppCalculEssence_Dorian.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -70,9 +70,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D9223572B7A4F7400238323 /* Essence */ = {
+		1D9223572B7A4F7400238323 /* Devoir2_AppCalculEssence_Dorian */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D9223662B7A4F7500238323 /* Build configuration list for PBXNativeTarget "Essence" */;
+			buildConfigurationList = 1D9223662B7A4F7500238323 /* Build configuration list for PBXNativeTarget "Devoir2_AppCalculEssence_Dorian" */;
 			buildPhases = (
 				1D9223542B7A4F7400238323 /* Sources */,
 				1D9223552B7A4F7400238323 /* Frameworks */,
@@ -82,9 +82,9 @@
 			);
 			dependencies = (
 			);
-			name = Essence;
+			name = Devoir2_AppCalculEssence_Dorian;
 			productName = Essence;
-			productReference = 1D9223582B7A4F7400238323 /* Essence.app */;
+			productReference = 1D9223582B7A4F7400238323 /* Devoir2_AppCalculEssence_Dorian.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -102,7 +102,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1D9223532B7A4F7400238323 /* Build configuration list for PBXProject "Essence" */;
+			buildConfigurationList = 1D9223532B7A4F7400238323 /* Build configuration list for PBXProject "Devoir2_AppCalculEssence_Dorian" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -115,7 +115,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1D9223572B7A4F7400238323 /* Essence */,
+				1D9223572B7A4F7400238323 /* Devoir2_AppCalculEssence_Dorian */,
 			);
 		};
 /* End PBXProject section */
@@ -323,7 +323,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D9223532B7A4F7400238323 /* Build configuration list for PBXProject "Essence" */ = {
+		1D9223532B7A4F7400238323 /* Build configuration list for PBXProject "Devoir2_AppCalculEssence_Dorian" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D9223642B7A4F7500238323 /* Debug */,
@@ -332,7 +332,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1D9223662B7A4F7500238323 /* Build configuration list for PBXNativeTarget "Essence" */ = {
+		1D9223662B7A4F7500238323 /* Build configuration list for PBXNativeTarget "Devoir2_AppCalculEssence_Dorian" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D9223672B7A4F7500238323 /* Debug */,
