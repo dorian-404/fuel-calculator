@@ -136,6 +136,16 @@ struct ContentView: View {
                         .padding(.trailing, 190)
                        // Text("L").padding(.leading, 1)
                     }
+                    Button(action:) {
+                       backgroundColor = Color.black
+                       buttonColor = Color.red
+                    }, label: {
+                           Text("Calculer les resultats")
+                        .padding()
+                        .padding(.horizontal, 20)
+                        .background(buttonColor)
+                        .cornerRadius(10)
+                }
 
                 }
 //                .multilineTextAlignment(.leading)
