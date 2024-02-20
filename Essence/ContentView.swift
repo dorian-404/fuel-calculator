@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     // Declaration de mes proprietes
-    let city: [String] = ["Bathurst", "Moncton", "Saint-Jean", "Fredericton", "Edmundston"]
+    @State var city: [String] = ["Bathurst", "Moncton", "Saint-Jean", "Fredericton", "Edmundston"]
     
     @State private var selectCityFirstMenu = ""
     @State private var selectCitySecondMenu = ""
@@ -18,10 +18,11 @@ struct ContentView: View {
     @State private var isSwitched = true;
     @State var consoMoy = ""
     @State var prixEssence = ""
-    @State var DISTANCE_MOYENNE = 100;
     @State private var distance: Double = 0.0
     @State private var results: (consommation: Double, cout: Double) = (0.0, 0.0)
+    @State private var tripPrices: [String] = []
     
+    let newCity = ""
     // Référence au TextField "Distance parcouru"
     @State private var distanceTextField: UITextField?
     
@@ -147,6 +148,10 @@ struct ContentView: View {
                         VStack {
                             Button(action: {
                                 results = calculateResults(distance: Double(distanceKm)!, consommationMoyenne: Double(consoMoy)!, prixEssence: Double(prixEssence)!)
+                                
+                                // add city in liste
+                                let newCity = "De \(selectCityFirstMenu) à \(selectCitySecondMenu) : \(String(format: "%.2f $", results.consommation))"
+                                tripPrices.append(newCity)
                             }) {
                                 Text("Calculate results")
                                     .foregroundColor(.white)
@@ -159,12 +164,13 @@ struct ContentView: View {
                             Toggle("Allez-retour?", isOn: $isSwitched)
                                 .padding()
                         }
-                        
-                        
                     }
-                    
-                    
                 }
+                // Liste des elements
+                List(tripPrices, id: \.self) { price in
+                    Text(price)
+                }
+                .padding(.bottom, -140)
             }
             .padding(.bottom, 130)
             .navigationTitle("Essence")
@@ -188,6 +194,7 @@ struct ContentView: View {
                     .foregroundColor(.gray)
                 }
             }
+            
         }
         
 
@@ -195,7 +202,7 @@ struct ContentView: View {
     // Declaration de mes fonctions
     func calculateResults(distance: Double, consommationMoyenne: Double, prixEssence: Double) -> (consommation: Double, cout: Double) {
         // Calcul de la consommation totale d'essence (en litres)
-        let consommation = (distance * consommationMoyenne) / 100
+        let consommation = (distance * consommationMoyenne) / 100.00
         
         // Calcul du coût total du carburant
         let cout = consommation * prixEssence
