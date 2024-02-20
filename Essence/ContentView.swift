@@ -91,7 +91,7 @@ struct ContentView: View {
                 .cornerRadius(20)
                 
                 // Deuxieme Stack
-                VStack {
+                VStack(alignment: .leading) {
                     Text("Moy de cons. d'essence du vehicule")
                         .font(.system(size: 14, weight: .medium, design: .default))
                         .foregroundColor(.black)
