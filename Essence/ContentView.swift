@@ -168,9 +168,17 @@ struct ContentView: View {
                 }
                 // Liste des elements
                 List(tripPrices, id: \.self) { price in
-                    Text(price)
+                    HStack {
+                        Text("\(isSwitched ? "\u{21C4} " : "")\(price)")
+                    }
                 }
                 .padding(.bottom, -140)
+                .contextMenu {
+                    Button("Delete") {
+                        deleteItem(newCity)
+                    }
+                }
+                
             }
             .padding(.bottom, 130)
             .navigationTitle("Essence")
@@ -201,11 +209,12 @@ struct ContentView: View {
     }
     // Declaration de mes fonctions
     func calculateResults(distance: Double, consommationMoyenne: Double, prixEssence: Double) -> (consommation: Double, cout: Double) {
-        // Calcul de la consommation totale d'essence (en litres)
-        let consommation = (distance * consommationMoyenne) / 100.00
-        
-        // Calcul du coût total du carburant
-        let cout = consommation * prixEssence
+        let consommationMoyenneAdjusted = isSwitched ? consommationMoyenne * 2 : consommationMoyenne
+         let prixEssenceAdjusted = isSwitched ? prixEssence * 2 : prixEssence
+
+         let consommation = (distance * consommationMoyenneAdjusted) / 100.0
+         
+         let cout = consommation * prixEssenceAdjusted
         
         return (consommation, cout)
     }
@@ -218,13 +227,12 @@ struct ContentView: View {
         prixEssence = ""
     }
     
-    //    func selectedCity(cityValue: String) -> String {
-    //    case "Bathurst":
-    //        return
-    //    }
-    
-    
-    
+    func deleteItem(_ item: String) {
+        if let index = tripPrices.firstIndex(of: item) {
+            tripPrices.remove(at: index)
+        }
+    }
+
 }
 
 #Preview {
