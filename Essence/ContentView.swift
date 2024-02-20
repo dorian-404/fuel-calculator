@@ -22,6 +22,10 @@ struct ContentView: View {
     @State private var distance: Double = 0.0
     @State private var results: (consommation: Double, cout: Double) = (0.0, 0.0)
     
+    // Référence au TextField "Distance parcouru"
+    @State private var distanceTextField: UITextField?
+    
+    
     var body: some View {
         
         // Partie Navigation
@@ -144,16 +148,16 @@ struct ContentView: View {
                             Button(action: {
                                 results = calculateResults(distance: Double(distanceKm)!, consommationMoyenne: Double(consoMoy)!, prixEssence: Double(prixEssence)!)
                             }) {
-                                   Text("Calculate results")
-                            .foregroundColor(.white)
-                            .frame(width: 130, height: 20, alignment: .topLeading)
-                            .padding()
-                            .background(Color.black)
-                            .cornerRadius(30)
+                                Text("Calculate results")
+                                    .foregroundColor(.white)
+                                    .frame(width: 130, height: 20, alignment: .topLeading)
+                                    .padding()
+                                    .background(Color.black)
+                                    .cornerRadius(30)
                             }
                             
                             Toggle("Allez-retour?", isOn: $isSwitched)
-                        .padding()
+                                .padding()
                         }
                         
                         
@@ -164,39 +168,65 @@ struct ContentView: View {
             }
             .padding(.bottom, 130)
             .navigationTitle("Essence")
-            
+            .onAppear {
+                // Assurer le focus sur le TextField "Distance parcouru" lorsque la vue apparaît
+                DispatchQueue.main.async {
+                    distanceTextField?.becomeFirstResponder()
+                }
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .topBarTrailing) {
+                    Button {
+                        hideKeyboard()
+                    } label: {
+                        Image(systemName: "keyboard.chevron.compact.down")
+                    }
+                    Button(action: clear) {
+                        Image(systemName: "trash.circle")
+                        Text("Clear")
+                    }
+                    .foregroundColor(.gray)
+                }
+            }
         }
         
-        // Partie barre d'outils
-        //        ToolbarItem {
-        //
-        //        }
-    }
-}
-    // Declaration de mes fonctions
-    
-//    func selectedCity(cityValue: String) -> String {
-//    case "Bathurst":
-//        return
-//    }
 
-func calculateResults(distance: Double, consommationMoyenne: Double, prixEssence: Double) -> (consommation: Double, cout: Double) {
-    // Calcul de la consommation totale d'essence (en litres)
-    let consommation = (distance * consommationMoyenne) / 100
+    }
+    // Declaration de mes fonctions
+    func calculateResults(distance: Double, consommationMoyenne: Double, prixEssence: Double) -> (consommation: Double, cout: Double) {
+        // Calcul de la consommation totale d'essence (en litres)
+        let consommation = (distance * consommationMoyenne) / 100
+        
+        // Calcul du coût total du carburant
+        let cout = consommation * prixEssence
+        
+        return (consommation, cout)
+    }
     
-    // Calcul du coût total du carburant
-    let cout = consommation * prixEssence
+    func clear() {
+        selectCityFirstMenu = ""
+        selectCitySecondMenu = ""
+        distanceKm = ""
+        consoMoy = ""
+        prixEssence = ""
+    }
     
-    return (consommation, cout)
+    //    func selectedCity(cityValue: String) -> String {
+    //    case "Bathurst":
+    //        return
+    //    }
+    
+    
+    
 }
 
 #Preview {
     ContentView()
 }
 
-// hide a keyboard
-//extension View {
-//    func hideKeyboard() {
-//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-//    }
-//}
+ //hide a keyboard
+extension View {
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
