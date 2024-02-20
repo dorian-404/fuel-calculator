@@ -13,13 +13,17 @@ struct ContentView: View {
     let city: [String] = ["Bathurst", "Moncton", "Saint-Jean", "Fredericton", "Edmundston"]
     
     @State private var selectCityFirstMenu = ""
-    
     @State private var selectCitySecondMenu = ""
-    
     @State var distanceKm:String = ""
+    @State private var isSwitched = true;
+    @State var consoMoy = ""
+    @State var prixEssence = ""
+    @State var DISTANCE_MOYENNE = 100;
+    @State private var distance: Double = 0.0
+    @State private var results: (consommation: Double, cout: Double) = (0.0, 0.0)
     
     var body: some View {
-         
+        
         // Partie Navigation
         
         NavigationView {
@@ -39,11 +43,11 @@ struct ContentView: View {
                         Text("Ville de depart :")
                         Text(selectCityFirstMenu)
                     }
-                   .frame(width: 300, height: 30)
-                   .foregroundColor(.white)
-                   .background(.black)
-                   .cornerRadius(10)
-                   .padding(21)
+                    .frame(width: 300, height: 30)
+                    .foregroundColor(.white)
+                    .background(.black)
+                    .cornerRadius(10)
+                    .padding(21)
                     
                     // 2eme Menu
                     Menu {
@@ -57,10 +61,10 @@ struct ContentView: View {
                         Text("Ville de destination :")
                         Text(selectCitySecondMenu)
                     }
-                   .frame(width: 300, height: 30)
-                   .foregroundColor(.white)
-                   .background(.black)
-                   .cornerRadius(10)
+                    .frame(width: 300, height: 30)
+                    .foregroundColor(.white)
+                    .background(.black)
+                    .cornerRadius(10)
                     
                     VStack(alignment: .leading) {
                         Text("Distance parcouru (en km)")
@@ -68,7 +72,7 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .padding(1)
                     }
-
+                    
                     TextField("Km", text: $distanceKm)
                         .padding()
                         .frame(width: 300, height: 30)
@@ -76,10 +80,10 @@ struct ContentView: View {
                         .cornerRadius(10)
                     
                 }
-                  .padding(.bottom)
-                  .frame(width: 350, height: 200)
-                  .background(.gray)
-                  .cornerRadius(20)
+                .padding(.bottom)
+                .frame(width: 350, height: 200)
+                .background(.gray)
+                .cornerRadius(20)
                 
                 // Deuxieme Stack
                 VStack {
@@ -88,7 +92,7 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .padding(1)
                     
-                    TextField("L/100km", text: $distanceKm)
+                    TextField("L/100km", text: $consoMoy)
                         .padding()
                         .frame(width: 300, height: 30)
                         .background(Color(.white))
@@ -99,15 +103,15 @@ struct ContentView: View {
                         .foregroundColor(.black)
                         .padding(1)
                     
-                    TextField("$", text: $distanceKm)
+                    TextField("$", text: $prixEssence)
                         .padding()
                         .frame(width: 300, height: 30)
                         .background(Color(.white))
                         .cornerRadius(10)
                 }
-                  .frame(width: 350, height: 200)
-                  .background(.gray)
-                  .cornerRadius(20)
+                .frame(width: 350, height: 200)
+                .background(.gray)
+                .cornerRadius(20)
                 
                 // Troisieme VStack
                 VStack {
@@ -122,70 +126,68 @@ struct ContentView: View {
                             // une autre stack encore ??
                             HStack {
                                 Image(systemName: "flame")
-                                Text("L")
+                                Text(String(format: "%.2f L", results.consommation))
                             }
                             // Stack horizontale pour ma lettre et mon n
                             HStack {
                                 Image(systemName: "trash.circle")
-                                Text("$")
+                                Text(String(format: "%.2f $", results.cout))
                             }
                         }
                         .frame(width: 150, height: 110)
                         .background(.gray)
                         .cornerRadius(20)
-                        .padding(.trailing, 190)
-                       // Text("L").padding(.leading, 1)
-                    }
-                    Button(action:) {
-                       backgroundColor = Color.black
-                       buttonColor = Color.red
-                    }, label: {
-                           Text("Calculer les resultats")
+                        .padding(.leading, 25)
+                        .padding(.bottom)
+                        // Button
+                        VStack {
+                            Button(action: {
+                                results = calculateResults(distance: Double(distanceKm)!, consommationMoyenne: Double(consoMoy)!, prixEssence: Double(prixEssence)!)
+                            }) {
+                                   Text("Calculate results")
+                            .foregroundColor(.white)
+                            .frame(width: 130, height: 20, alignment: .topLeading)
+                            .padding()
+                            .background(Color.black)
+                            .cornerRadius(30)
+                            }
+                            
+                            Toggle("Allez-retour?", isOn: $isSwitched)
                         .padding()
-                        .padding(.horizontal, 20)
-                        .background(buttonColor)
-                        .cornerRadius(10)
+                        }
+                        
+                        
+                    }
+                    
+                    
                 }
-
-                }
-//                .multilineTextAlignment(.leading)
-//                VStack {
-//                    //
-//                    Menu {
-                        //
-
-//                    } label: {
-//                        HStack {
-//                            Text("Ville de depart :")
-//                            Text(selectCity)
-//                        }
-//                        .padding(12)
-//
-//                        .foregroundColor(.white)
-//                        .padding(5)
-//                        .background(.black)
-//                        }
-//                }
-//                .padding(.top, 185)
-//                .background(Color.gray)
             }
-            .padding(.bottom, 100)
+            .padding(.bottom, 130)
             .navigationTitle("Essence")
             
         }
         
         // Partie barre d'outils
-//        ToolbarItem {
-//
-//        }
+        //        ToolbarItem {
+        //
+        //        }
     }
-    
+}
     // Declaration de mes fonctions
     
 //    func selectedCity(cityValue: String) -> String {
 //    case "Bathurst":
 //        return
 //    }
+
+func calculateResults(distance: Double, consommationMoyenne: Double, prixEssence: Double) -> (consommation: Double, cout: Double) {
+    // Calcul de la consommation totale d'essence (en litres)
+    let consommation = (distance * consommationMoyenne) / 100
+    
+    // Calcul du coût total du carburant
+    let cout = consommation * prixEssence
+    
+    return (consommation, cout)
 }
 
 #Preview {
@@ -193,8 +195,8 @@ struct ContentView: View {
 }
 
 // hide a keyboard
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-    }
-}
+//extension View {
+//    func hideKeyboard() {
+//        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//    }
+//}
